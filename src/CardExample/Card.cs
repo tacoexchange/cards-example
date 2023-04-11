@@ -12,4 +12,12 @@ public class Card {
     /// The value of the card.
     /// </summary>
     public double Value { get; set; }
+    /// <summary>
+    /// The effects of the card.
+    /// </summary>
+    public List<Effect> Effects { get; set; }
+    /// <summary>
+    /// The behaviors of the card.
+    /// </summary>
+    public List<CardBehavior> Behaviors { get; set; }
 }
