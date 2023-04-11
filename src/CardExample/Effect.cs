@@ -1,9 +1,9 @@
 namespace CardExample;
 
 /// <summary>
-/// Represents an effect to be applied with a card.
+/// Represents an effect capable of being applied to any entity.
 /// </summary>
-public abstract class CardEffect {
+public abstract class Effect {
     /// <summary>
     /// Gets or sets the name of the effect.
     /// </summary>
