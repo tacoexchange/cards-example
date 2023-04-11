@@ -5,6 +5,7 @@ namespace CardExample.Services;
 /// </summary>
 public sealed class PlayerService
 {
+    private int _currentPlayerIndex;
     private readonly List<Player> _players;
 
     /// <summary>
@@ -30,5 +31,16 @@ public sealed class PlayerService
         };
 
         _players.Add(player);
+    }
+
+    /// <summary>
+    /// Gets the next player in the game.
+    /// </summary>
+    public Player GetNextPlayer() {
+        int index = _currentPlayerIndex++;
+        if (_currentPlayerIndex >= _players.Count)
+            _currentPlayerIndex = 0;
+
+        return _players[index];
     }
 }
