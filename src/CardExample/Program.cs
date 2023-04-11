@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using CardExample.Services;
+
 namespace CardExample;
 
 /// <summary>
@@ -9,7 +11,7 @@ namespace CardExample;
 /// </summary>
 internal class Program
 {
-    private readonly static Random _random;
+    private static Random _random;
 
     /// <summary>
     /// The entry point of the application.
@@ -25,14 +27,15 @@ internal class Program
 
         // Create a new player service and add four new players with 10 cards each.
         var playerService = new PlayerService();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             IEnumerable<Card> initialHand = deckService.Draw(10);
             playerService.AddPlayer(initialHand);
         }
 
         // Create a new game service and run it to completion.
         // This effectively emulates your game loop in Unity.
-        var gameService = new GameService(deckService, playerService);
+        var gameService = new GameService(playerService, deckService);
         gameService.Run();
 
         Console.WriteLine("Press any key to exit.");
@@ -42,17 +45,19 @@ internal class Program
     /// <summary>
     /// Generates a dummy deck of 250 cards.
     /// </summary>
-    internal static IEnumerable<Card> GetDeck() {
+    internal static IEnumerable<Card> GetDeck()
+    {
         var cards = new List<Card>();
         for (int i = 0; i < 250; i++)
         {
             var card = new Card
             {
-                Id = i,
                 Name = $"Card {i}",
-                Value = random.Next(1, 10)
+                Value = _random.Next(1, 10)
             };
             cards.Add(card);
         }
+
+        return cards;
     }
 }

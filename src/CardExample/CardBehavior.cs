@@ -3,7 +3,8 @@ namespace CardExample;
 /// <summary>
 /// Represents a behavior to be applied by a card.
 /// </summary>
-public abstract class CardBehavior {
+public abstract class CardBehavior
+{
     /// <summary>
     /// Applies the behavior using the given card to the specified target.
     /// </summary>

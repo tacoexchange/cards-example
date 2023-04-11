@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
+
 namespace CardExample;
 
 /// <summary>
 /// Represents a behavior that causes the target to draw cards.
 /// </summary>
-public sealed class DrawCardsBehavior : CardBehavior {
+public sealed class DrawCardsBehavior : CardBehavior
+{
     private readonly DeckService _deckService;
 
     /// <summary>
@@ -11,7 +15,8 @@ public sealed class DrawCardsBehavior : CardBehavior {
     /// </summary>
     /// <param name="deckService">The deck service to use.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="deckService"/> is <see langword="null"/>.</exception>
-    public DrawCardsBehavior(DeckService deckService) {
+    public DrawCardsBehavior(DeckService deckService)
+    {
         if (deckService is null)
             throw new ArgumentNullException(nameof(deckService));
 
@@ -24,7 +29,8 @@ public sealed class DrawCardsBehavior : CardBehavior {
     /// <param name="card">The card to apply the behavior with.</param>
     /// <param name="target">The target to apply the behavior to.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="card"/> is <see langword="null"/>.</exception>
-    public override void Apply(Card card, Player target) {
+    public override void Apply(Card card, Player target)
+    {
         if (card is null)
             throw new ArgumentNullException(nameof(card));
 

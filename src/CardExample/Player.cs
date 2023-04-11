@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+
 namespace CardExample;
 
 /// <summary>
 /// Represents a player.
 /// </summary>
-public sealed class Player {
+public sealed class Player
+{
     /// <summary>
     /// Gets or sets the player's unique identifier.
     /// </summary>
