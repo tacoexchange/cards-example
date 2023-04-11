@@ -28,13 +28,19 @@ public sealed class DrawCardsBehavior : CardBehavior
     /// </summary>
     /// <param name="card">The card to apply the behavior with.</param>
     /// <param name="target">The target to apply the behavior to.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="card"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="card"/> or <paramref name="target"/> is <see langword="null"/>.</exception>
     public override void Apply(Card card, Player target)
     {
         if (card is null)
             throw new ArgumentNullException(nameof(card));
 
-        IEnumerable<Card> cards = _deckService.Draw((int)card.Value);
-        target.Hand.AddRange(cards);
+        if (target is null)
+            throw new ArgumentNullException(nameof(target));
+
+        if (card.Value < 0)
+            return;
+
+        if (_deckService.TryDraw((int)card.Value, out IEnumerable<Card> cards))
+            target.Hand.AddRange(cards);
     }
 }

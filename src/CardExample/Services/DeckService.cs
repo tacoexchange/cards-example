@@ -31,17 +31,19 @@ public sealed class DeckService
     /// Draws the specified number of cards from the deck.
     /// </summary>
     /// <param name="count">The number of cards to draw.</param>
-    /// <returns>The drawn cards.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="count"/> is less than zero.</exception>
-    public IEnumerable<Card> Draw(int count)
+    /// <param name="cards">The cards that were drawn.</param>
+    /// <returns><see langword="true"/> if cards were successfully drawn, otherwise <see langword="false"/>.</returns>
+    public bool TryDraw(int count, out IEnumerable<Card> cards)
     {
+        cards = Enumerable.Empty<Card>();
         if (count < 0)
-            throw new ArgumentOutOfRangeException(nameof(count), "The number of cards to draw must be greater than or equal to zero.");
+            return false;
 
         List<Card> newCards = new();
         for (int i = 0; i < count && i < _cards.Count; i++)
             newCards.Add(_cards.Dequeue());
 
-        return newCards;
+        cards = newCards;
+        return newCards.Count > 0;
     }
 }

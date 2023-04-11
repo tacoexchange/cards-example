@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CardExample.Services;
 
@@ -45,6 +47,10 @@ public sealed class GameService
 
             // Apply the immediate impact of the card.
             target.Health -= card.Value;
+
+            // Make the player draw a new card.
+            if (_deckService.TryDraw(1, out IEnumerable<Card> newCards))
+                nextPlayer.Hand.AddRange(newCards);
 
             // Continue iterating until only one player stands.
         } while (_playerService.GetRemainingPlayerCount() > 1);

@@ -28,10 +28,8 @@ internal class Program
         // Create a new player service and add four new players with 10 cards each.
         var playerService = new PlayerService();
         for (int i = 0; i < 4; i++)
-        {
-            IEnumerable<Card> initialHand = deckService.Draw(10);
-            playerService.AddPlayer(initialHand);
-        }
+            if (deckService.TryDraw(10, out IEnumerable<Card> initialHand))
+                playerService.AddPlayer(initialHand);
 
         // Create a new game service and run it to completion.
         // This effectively emulates your game loop in Unity.
