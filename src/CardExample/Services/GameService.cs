@@ -37,7 +37,7 @@ public sealed class GameService
             Card card = nextPlayer.Hand[_random.Next(0, nextPlayer.Hand.Count)];
 
             // Be sure to remove the card from the player's hand as we play it.
-            nextPlayer.Hand.Remove(card);
+            _ = nextPlayer.Hand.Remove(card);
 
             // Apply any behaviors associated with the card.
             foreach (CardBehavior behavior in card.Behaviors)
