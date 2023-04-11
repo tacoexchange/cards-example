@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using CardExample.Services;
@@ -18,12 +19,14 @@ internal class Program
     /// </summary>
     internal static void Main()
     {
+        Console.WriteLine("Starting simulation.");
+        
         // Create a random for generating sample data.
         _random = new Random();
 
-        // Create a new deck service with a dummy deck.
-        IEnumerable<Card> dummyDeck = GetDeck();
-        var deckService = new DeckService(dummyDeck);
+        // Create a new deck service and load a dummy deck
+        var deckService = new DeckService();
+        deckService.Load();
 
         // Create a new player service and add four new players with 10 cards each.
         var playerService = new PlayerService();
@@ -38,24 +41,5 @@ internal class Program
 
         Console.WriteLine("Press any key to exit.");
         _ = Console.ReadKey();
-    }
-
-    /// <summary>
-    /// Generates a dummy deck of 250 cards.
-    /// </summary>
-    internal static IEnumerable<Card> GetDeck()
-    {
-        var cards = new List<Card>();
-        for (int i = 0; i < 250; i++)
-        {
-            var card = new Card
-            {
-                Name = $"Card {i}",
-                Value = _random.Next(1, 10)
-            };
-            cards.Add(card);
-        }
-
-        return cards;
     }
 }
