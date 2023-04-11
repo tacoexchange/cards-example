@@ -5,8 +5,9 @@ namespace CardExample;
 /// </summary>
 public abstract class CardBehavior {
     /// <summary>
-    /// Applies the behavior using the given card.
+    /// Applies the behavior using the given card to the specified target.
     /// </summary>
-    /// <param name="card">The card to apply the behavior with.</param>
-    public abstract void Apply(Card card);
+    /// <param name="card">The <see cref="Card"/> to apply the behavior with.</param>
+    /// <param name="target">The <see cref="Player"/> the behavior should be applied to.</param>
+    public abstract void Apply(Card card, Player target);
 }
