@@ -70,4 +70,10 @@ public sealed class PlayerService
     /// </summary>
     public int GetRemainingPlayerCount() =>
         _players.Count(player => player.Health > 0);
+
+    /// <summary>
+    /// Gets the winning player.
+    /// </summary>
+    public Player GetWinner() =>
+        _players.SingleOrDefault(player => player.Health > 0);
 }
