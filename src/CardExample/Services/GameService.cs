@@ -25,8 +25,12 @@ public sealed class GameService
     /// </summary>
     public void Run()
     {
+        int turn = 0;
+        bool behaviorsApplied = false;
+
         do
         {
+            turn++;
             Player nextPlayer = _playerService.GetNextPlayer();
 
             // Get a target at random for demonstration purposes.
@@ -38,12 +42,21 @@ public sealed class GameService
             // This is only random for the example.
             Card card = nextPlayer.Hand[_random.Next(0, nextPlayer.Hand.Count)];
 
+            // Display what card is being played, by who, and targeting who.
+            Console.WriteLine($"Player `{nextPlayer.Id}` uses `{card.Name}` against player `{target.Id}`.");
+            Console.WriteLine($"    Player Details: {nextPlayer.Health}H, {nextPlayer.Mana}M, {nextPlayer.Hand.Count}C");
+            Console.WriteLine($"    Target Details: {target.Health}H, {target.Mana}M, {target.Hand.Count}C");
+
             // Be sure to remove the card from the player's hand as we play it.
             _ = nextPlayer.Hand.Remove(card);
 
             // Apply any behaviors associated with the card.
             foreach (CardBehavior behavior in card.Behaviors)
+            {
+                behaviorsApplied = true;
+                Console.WriteLine($"    Behavior: {card.Name} -> {card.Value}");
                 behavior.Apply(card, target);
+            }
 
             // Apply the immediate impact of the card.
             target.Health -= card.Value;
@@ -52,7 +65,18 @@ public sealed class GameService
             if (_deckService.TryDraw(1, out IEnumerable<Card> newCards))
                 nextPlayer.Hand.AddRange(newCards);
 
+            Console.WriteLine($"    Result:");
+            Console.WriteLine($"        Player Details: {nextPlayer.Health}H, {nextPlayer.Mana}M, {nextPlayer.Hand.Count}C");
+            Console.WriteLine($"        Target Details: {target.Health}H, {target.Mana}M, {target.Hand.Count}C");
+            Console.WriteLine();
+
             // Continue iterating until only one player stands.
         } while (_playerService.GetRemainingPlayerCount() > 1);
+
+        Console.WriteLine($"Game completed in {turn} turns.");
+        if (behaviorsApplied)
+            Console.WriteLine("Behaviors were applied during this simulation.");
+
+        Console.WriteLine($"Player {_playerService.GetWinner()?.Id ?? -1} wins.");
     }
 }
