@@ -43,4 +43,13 @@ public sealed class PlayerService
 
         return _players[index];
     }
+
+    /// <summary>
+    /// Gets a random target from the game.
+    /// </summary>
+    /// <remarks>The target in this example can also be the sender.</remarks>
+    public Player GetRandomTarget() {
+        int index = random.Next(0, _players.Count);
+        return _players[index];
+    }
 }
