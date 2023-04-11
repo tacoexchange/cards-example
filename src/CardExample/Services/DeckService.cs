@@ -9,22 +9,36 @@ namespace CardExample;
 /// </summary>
 public sealed class DeckService
 {
-    private readonly Queue<Card> _cards;
+    private Queue<Card> _cards;
+    private readonly Random _random;
 
     /// <summary>
     /// Creates a new <see cref="DeckService"/> instance.
     /// </summary>
-    /// <param name="cards">The cards to use.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="cards"/> is <see langword="null"/>.</exception>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="cards"/> is empty.</exception>
-    public DeckService(IEnumerable<Card> cards)
-    {
-        if (cards is null)
-            throw new ArgumentNullException(nameof(cards));
-        if (!cards.Any())
-            throw new ArgumentException("The deck must contain at least one card.", nameof(cards));
+    public DeckService() =>
+        _random = new Random();
 
-        _cards = new Queue<Card>(cards);
+    /// <summary>
+    /// Loads a dummy deck.
+    /// </summary>
+    public void Load()
+    {
+        _cards = new Queue<Card>();
+        for (int i = 0; i < 250; i++)
+        {
+            var card = new Card
+            {
+                Name = $"Card {i}",
+                Value = _random.Next(1, 10),
+                Behaviors = new List<CardBehavior>()
+            };
+
+            // Add a draw cards behavior to every 30th card.
+            if (i % 15 == 0)
+                card.Behaviors.Add(new DrawCardsBehavior(this));
+
+            _cards.Enqueue(card);
+        }
     }
 
     /// <summary>
